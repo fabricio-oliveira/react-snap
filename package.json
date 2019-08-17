@@ -1,6 +1,6 @@
 {
-  "name": "react-snap",
-  "version": "1.23.0",
+  "name": "@olxbr/react-snap",
+  "version": "1.24.0",
   "description": "Zero-configuration framework-agnostic static prerendering for SPAs",
   "main": "index.js",
   "author": "stereobooster",
@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "dev-null-stream": "0.0.1",
-    "jest": "24.8.0",
+    "jest": "24.9.0",
     "markdown-toc": "1.2.0",
     "prettier": "1.18.2"
   },
