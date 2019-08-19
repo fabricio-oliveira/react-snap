@@ -382,7 +382,7 @@ const fixWebpackChunksIssue1 = ({
   inlineCss
 }) => {
   return page.evaluate(
-    (basePath, http2PushManifest, inlineCss, keepBaseUrl) => {
+    (basePath, http2PushManifest, inlineCss, useStaticServer) => {
       const localScripts = Array.from(document.scripts).filter(
         x => x.src && x.src.startsWith(basePath)
       );
@@ -413,7 +413,8 @@ const fixWebpackChunksIssue1 = ({
         const linkTag = document.createElement("link");
         linkTag.setAttribute("rel", "preload");
         linkTag.setAttribute("as", "script");
-        if (!keepBaseUrl) {
+        if (!useStaticServer) {
+          console.log(`Line 417: BasePath ${basePath}`)
           linkTag.setAttribute("href", x.src.replace(basePath, ""));
         }
         if (inlineCss) {
@@ -445,7 +446,7 @@ const fixWebpackChunksIssue2 = ({
   inlineCss
 }) => {
   return page.evaluate(
-    (basePath, http2PushManifest, inlineCss, keepBaseUrl) => {
+    (basePath, http2PushManifest, inlineCss, useStaticServer) => {
       const localScripts = Array.from(document.scripts).filter(
         x => x.src && x.src.startsWith(basePath)
       );
@@ -479,7 +480,7 @@ const fixWebpackChunksIssue2 = ({
         const linkTag = document.createElement("link");
         linkTag.setAttribute("rel", "preload");
         linkTag.setAttribute("as", "script");
-        if (!keepBaseUrl) {
+        if (!useStaticServer) {
           linkTag.setAttribute("href", x.src.replace(basePath, ""));
         }
         if (inlineCss) {
@@ -517,7 +518,7 @@ const fixParcelChunksIssue = ({
   inlineCss
 }) => {
   return page.evaluate(
-    (basePath, http2PushManifest, inlineCss, keepBaseUrl) => {
+    (basePath, http2PushManifest, inlineCss, useStaticServer) => {
       const localScripts = Array.from(document.scripts)
         .filter(x => x.src && x.src.startsWith(basePath))
 
@@ -540,7 +541,7 @@ const fixParcelChunksIssue = ({
         const linkTag = document.createElement("link");
         linkTag.setAttribute("rel", "preload");
         linkTag.setAttribute("as", "script");
-        if (!keepBaseUrl) {
+        if (!useStaticServer) {
           linkTag.setAttribute("href", x.src.replace(`${basePath}/`, ""));
         }
         if (inlineCss) {
