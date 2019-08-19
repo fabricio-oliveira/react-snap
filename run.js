@@ -11,7 +11,6 @@ const {
 } = require(`${process.cwd()}/package.json`);
 
 const publicUrl = process.env.PUBLIC_URL || homepage;
-const staticBasePath = process.env.STATIC_BASE_PATH || staticBasePath;
 
 const reactScriptsVersion = parseInt(
   (devDependencies && devDependencies["react-scripts"])
@@ -42,7 +41,7 @@ if (parcel) {
 
 run({
   publicPath: publicUrl ? url.parse(publicUrl).pathname : "/",
-  staticBasePath: staticBasePath,
+  staticBasePath: process.env.STATIC_BASE_PATH || staticBasePath,
   fixWebpackChunksIssue,
   ...reactSnap
 }).catch(error => {
