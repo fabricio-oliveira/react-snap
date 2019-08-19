@@ -307,7 +307,7 @@ const inlineCss = async opt => {
   if (cssSize > twentyKb)
     console.log(
       `⚠️  warning: inlining CSS more than 20kb (${cssSize /
-        1024}kb, ${cssStrategy})`
+      1024}kb, ${cssStrategy})`
     );
 
   if (cssStrategy === "critical") {
@@ -382,7 +382,7 @@ const fixWebpackChunksIssue1 = ({
   inlineCss
 }) => {
   return page.evaluate(
-    (basePath, http2PushManifest, inlineCss) => {
+    (basePath, http2PushManifest, inlineCss, keepBaseUrl) => {
       const localScripts = Array.from(document.scripts).filter(
         x => x.src && x.src.startsWith(basePath)
       );
@@ -413,7 +413,9 @@ const fixWebpackChunksIssue1 = ({
         const linkTag = document.createElement("link");
         linkTag.setAttribute("rel", "preload");
         linkTag.setAttribute("as", "script");
-        linkTag.setAttribute("href", x.src.replace(basePath, ""));
+        if (!keepBaseUrl) {
+          linkTag.setAttribute("href", x.src.replace(basePath, ""));
+        }
         if (inlineCss) {
           firstStyle.parentNode.insertBefore(linkTag, firstStyle);
         } else {
@@ -443,7 +445,7 @@ const fixWebpackChunksIssue2 = ({
   inlineCss
 }) => {
   return page.evaluate(
-    (basePath, http2PushManifest, inlineCss) => {
+    (basePath, http2PushManifest, inlineCss, keepBaseUrl) => {
       const localScripts = Array.from(document.scripts).filter(
         x => x.src && x.src.startsWith(basePath)
       );
@@ -477,7 +479,9 @@ const fixWebpackChunksIssue2 = ({
         const linkTag = document.createElement("link");
         linkTag.setAttribute("rel", "preload");
         linkTag.setAttribute("as", "script");
-        linkTag.setAttribute("href", x.src.replace(basePath, ""));
+        if (!keepBaseUrl) {
+          linkTag.setAttribute("href", x.src.replace(basePath, ""));
+        }
         if (inlineCss) {
           firstStyle.parentNode.insertBefore(linkTag, firstStyle);
         } else {
@@ -513,7 +517,7 @@ const fixParcelChunksIssue = ({
   inlineCss
 }) => {
   return page.evaluate(
-    (basePath, http2PushManifest, inlineCss) => {
+    (basePath, http2PushManifest, inlineCss, keepBaseUrl) => {
       const localScripts = Array.from(document.scripts)
         .filter(x => x.src && x.src.startsWith(basePath))
 
@@ -536,7 +540,9 @@ const fixParcelChunksIssue = ({
         const linkTag = document.createElement("link");
         linkTag.setAttribute("rel", "preload");
         linkTag.setAttribute("as", "script");
-        linkTag.setAttribute("href", x.src.replace(`${basePath}/`, ""));
+        if (!keepBaseUrl) {
+          linkTag.setAttribute("href", x.src.replace(`${basePath}/`, ""));
+        }
         if (inlineCss) {
           firstStyle.parentNode.insertBefore(linkTag, firstStyle);
         } else {
