@@ -30,7 +30,7 @@ const defaultOptions = {
   puppeteerExecutablePath: undefined,
   puppeteerIgnoreHTTPSErrors: false,
   publicPath: "/",
-  staticPath: "/",
+  staticBasePath: "/",
   minifyCss: {},
   minifyHtml: {
     collapseBooleanAttributes: true,
@@ -381,10 +381,10 @@ const fixWebpackChunksIssue1 = ({
   basePath,
   http2PushManifest,
   inlineCss,
-  staticPath
+  staticBasePath
 }) => {
   return page.evaluate(
-    (basePath, http2PushManifest, inlineCss, staticPath) => {
+    (basePath, http2PushManifest, inlineCss, staticBasePath) => {
       const localScripts = Array.from(document.scripts).filter(
         x => x.src && x.src.startsWith(basePath)
       );
@@ -415,7 +415,7 @@ const fixWebpackChunksIssue1 = ({
         const linkTag = document.createElement("link");
         linkTag.setAttribute("rel", "preload");
         linkTag.setAttribute("as", "script");
-        linkTag.setAttribute("href", x.src.replace(basePath, staticPath));
+        linkTag.setAttribute("href", x.src.replace(basePath, staticBasePath));
         if (inlineCss) {
           firstStyle.parentNode.insertBefore(linkTag, firstStyle);
         } else {
@@ -435,7 +435,7 @@ const fixWebpackChunksIssue1 = ({
     basePath,
     http2PushManifest,
     inlineCss,
-    staticPath
+    staticBasePath
   );
 };
 
@@ -444,10 +444,10 @@ const fixWebpackChunksIssue2 = ({
   basePath,
   http2PushManifest,
   inlineCss,
-  staticPath
+  staticBasePath
 }) => {
   return page.evaluate(
-    (basePath, http2PushManifest, inlineCss, staticPath) => {
+    (basePath, http2PushManifest, inlineCss, staticBasePath) => {
       const localScripts = Array.from(document.scripts).filter(
         x => x.src && x.src.startsWith(basePath)
       );
@@ -481,7 +481,7 @@ const fixWebpackChunksIssue2 = ({
         const linkTag = document.createElement("link");
         linkTag.setAttribute("rel", "preload");
         linkTag.setAttribute("as", "script");
-        linkTag.setAttribute("href", x.src.replace(basePath, staticPath));
+        linkTag.setAttribute("href", x.src.replace(basePath, staticBasePath));
         if (inlineCss) {
           firstStyle.parentNode.insertBefore(linkTag, firstStyle);
         } else {
@@ -507,7 +507,7 @@ const fixWebpackChunksIssue2 = ({
     basePath,
     http2PushManifest,
     inlineCss,
-    staticPath
+    staticBasePath
   );
 };
 
@@ -516,10 +516,10 @@ const fixParcelChunksIssue = ({
   basePath,
   http2PushManifest,
   inlineCss,
-  staticPath
+  staticBasePath
 }) => {
   return page.evaluate(
-    (basePath, http2PushManifest, inlineCss, staticPath) => {
+    (basePath, http2PushManifest, inlineCss, staticBasePath) => {
       const localScripts = Array.from(document.scripts)
         .filter(x => x.src && x.src.startsWith(basePath))
 
@@ -542,7 +542,7 @@ const fixParcelChunksIssue = ({
         const linkTag = document.createElement("link");
         linkTag.setAttribute("rel", "preload");
         linkTag.setAttribute("as", "script");
-        linkTag.setAttribute("href", x.src.replace(basePath, staticPath));
+        linkTag.setAttribute("href", x.src.replace(basePath, staticBasePath));
         if (inlineCss) {
           firstStyle.parentNode.insertBefore(linkTag, firstStyle);
         } else {
@@ -561,7 +561,7 @@ const fixParcelChunksIssue = ({
     basePath,
     http2PushManifest,
     inlineCss,
-    staticPath
+    staticBasePath
   );
 };
 
@@ -698,8 +698,8 @@ const run = async (userOptions, { fs } = { fs: nativeFs }) => {
   const server = options.externalServer ? null : startServer(options);
 
   const basePath = `http://localhost:${options.port}`;
+  const staticBasePath = options.staticBasePath || basePath;
   const publicPath = options.publicPath;
-  const staticPath = options.staticPath;
   const ajaxCache = {};
   const { http2PushManifest } = options;
   const http2PushManifestItems = {};
@@ -707,7 +707,7 @@ const run = async (userOptions, { fs } = { fs: nativeFs }) => {
   await crawl({
     options,
     basePath,
-    staticPath,
+    staticBasePath,
     publicPath,
     sourceDir,
     beforeFetch: async ({ page, route }) => {
@@ -773,7 +773,7 @@ const run = async (userOptions, { fs } = { fs: nativeFs }) => {
           basePath,
           http2PushManifest,
           inlineCss: options.inlineCss,
-          staticPath
+          staticBasePath
         });
       } else if (options.fixWebpackChunksIssue === "CRA2") {
         await fixWebpackChunksIssue2({
@@ -781,7 +781,7 @@ const run = async (userOptions, { fs } = { fs: nativeFs }) => {
           basePath,
           http2PushManifest,
           inlineCss: options.inlineCss,
-          staticPath
+          staticBasePath
         });
       } else if (options.fixWebpackChunksIssue === "CRA1") {
         await fixWebpackChunksIssue1({
@@ -789,7 +789,7 @@ const run = async (userOptions, { fs } = { fs: nativeFs }) => {
           basePath,
           http2PushManifest,
           inlineCss: options.inlineCss,
-          staticPath
+          staticBasePath
         });
       }
       if (options.asyncScriptTags) await asyncScriptTags({ page });
