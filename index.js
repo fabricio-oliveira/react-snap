@@ -415,7 +415,11 @@ const fixWebpackChunksIssue1 = ({
         const linkTag = document.createElement("link");
         linkTag.setAttribute("rel", "preload");
         linkTag.setAttribute("as", "script");
-        linkTag.setAttribute("href", x.src.replace(basePath, staticBasePath));
+        if (staticBasePath == basePath) {
+          linkTag.setAttribute("href", x.src.replace(basePath, ""));
+        } else {
+          linkTag.setAttribute("href", x.src.replace(basePath, staticBasePath));
+        }
         if (inlineCss) {
           firstStyle.parentNode.insertBefore(linkTag, firstStyle);
         } else {
@@ -481,7 +485,13 @@ const fixWebpackChunksIssue2 = ({
         const linkTag = document.createElement("link");
         linkTag.setAttribute("rel", "preload");
         linkTag.setAttribute("as", "script");
-        linkTag.setAttribute("href", x.src.replace(basePath, staticBasePath));
+
+        if (staticBasePath == basePath) {
+          linkTag.setAttribute("href", x.src.replace(basePath, ""));
+        } else {
+          linkTag.setAttribute("href", x.src.replace(basePath, staticBasePath));
+        }
+
         if (inlineCss) {
           firstStyle.parentNode.insertBefore(linkTag, firstStyle);
         } else {
@@ -542,7 +552,13 @@ const fixParcelChunksIssue = ({
         const linkTag = document.createElement("link");
         linkTag.setAttribute("rel", "preload");
         linkTag.setAttribute("as", "script");
-        linkTag.setAttribute("href", x.src.replace(basePath, staticBasePath));
+
+        if (staticBasePath == basePath) {
+          linkTag.setAttribute("href", x.src.replace(`${basePath}/`, ""));
+        } else {
+          linkTag.setAttribute("href", x.src.replace(basePath, staticBasePath));
+        }
+
         if (inlineCss) {
           firstStyle.parentNode.insertBefore(linkTag, firstStyle);
         } else {
