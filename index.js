@@ -380,7 +380,8 @@ const fixWebpackChunksIssue1 = ({
   page,
   basePath,
   http2PushManifest,
-  inlineCss
+  inlineCss,
+  staticPath
 }) => {
   return page.evaluate(
     (basePath, http2PushManifest, inlineCss, staticPath) => {
@@ -433,7 +434,8 @@ const fixWebpackChunksIssue1 = ({
     },
     basePath,
     http2PushManifest,
-    inlineCss
+    inlineCss,
+    staticPath
   );
 };
 
@@ -441,7 +443,8 @@ const fixWebpackChunksIssue2 = ({
   page,
   basePath,
   http2PushManifest,
-  inlineCss
+  inlineCss,
+  staticPath
 }) => {
   return page.evaluate(
     (basePath, http2PushManifest, inlineCss, staticPath) => {
@@ -503,7 +506,8 @@ const fixWebpackChunksIssue2 = ({
     },
     basePath,
     http2PushManifest,
-    inlineCss
+    inlineCss,
+    staticPath
   );
 };
 
@@ -511,7 +515,8 @@ const fixParcelChunksIssue = ({
   page,
   basePath,
   http2PushManifest,
-  inlineCss
+  inlineCss,
+  staticPath
 }) => {
   return page.evaluate(
     (basePath, http2PushManifest, inlineCss, staticPath) => {
@@ -555,7 +560,8 @@ const fixParcelChunksIssue = ({
     },
     basePath,
     http2PushManifest,
-    inlineCss
+    inlineCss,
+    staticPath
   );
 };
 
@@ -693,6 +699,7 @@ const run = async (userOptions, { fs } = { fs: nativeFs }) => {
 
   const basePath = `http://localhost:${options.port}`;
   const publicPath = options.publicPath;
+  const staticPath = options.staticPath;
   const ajaxCache = {};
   const { http2PushManifest } = options;
   const http2PushManifestItems = {};
@@ -700,6 +707,7 @@ const run = async (userOptions, { fs } = { fs: nativeFs }) => {
   await crawl({
     options,
     basePath,
+    staticPath,
     publicPath,
     sourceDir,
     beforeFetch: async ({ page, route }) => {
@@ -764,21 +772,24 @@ const run = async (userOptions, { fs } = { fs: nativeFs }) => {
           page,
           basePath,
           http2PushManifest,
-          inlineCss: options.inlineCss
+          inlineCss: options.inlineCss,
+          staticPath
         });
       } else if (options.fixWebpackChunksIssue === "CRA2") {
         await fixWebpackChunksIssue2({
           page,
           basePath,
           http2PushManifest,
-          inlineCss: options.inlineCss
+          inlineCss: options.inlineCss,
+          staticPath
         });
       } else if (options.fixWebpackChunksIssue === "CRA1") {
         await fixWebpackChunksIssue1({
           page,
           basePath,
           http2PushManifest,
-          inlineCss: options.inlineCss
+          inlineCss: options.inlineCss,
+          staticPath
         });
       }
       if (options.asyncScriptTags) await asyncScriptTags({ page });
