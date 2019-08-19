@@ -6,11 +6,12 @@ const {
   reactSnap,
   homepage,
   devDependencies,
-  dependencies
+  dependencies,
+  staticBasePath
 } = require(`${process.cwd()}/package.json`);
 
 const publicUrl = process.env.PUBLIC_URL || homepage;
-const staticBasePath = process.env.STATIC_BASE_PATH || static_base_path;
+const staticBasePath = process.env.STATIC_BASE_PATH || staticBasePath;
 
 const reactScriptsVersion = parseInt(
   (devDependencies && devDependencies["react-scripts"])
