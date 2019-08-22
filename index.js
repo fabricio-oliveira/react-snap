@@ -557,6 +557,7 @@ const fixParcelChunksIssue = ({
 
       const createLink = x => {
         if (http2PushManifest) return;
+
         const linkTag = document.createElement("link");
         linkTag.setAttribute("rel", "preload");
         linkTag.setAttribute("as", "script");
