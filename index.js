@@ -173,6 +173,7 @@ const preloadResources = opt => {
           });
         } else {
           await page.evaluate(route => {
+            console.log(`Debug index:176 -> ${route}`)
             const linkTag = document.createElement("link");
             linkTag.setAttribute("rel", "preload");
             linkTag.setAttribute("as", "image");
@@ -188,6 +189,7 @@ const preloadResources = opt => {
           .parse(responseUrl)
           .pathname.split("/")
           .pop();
+        console.log(`Debug index:192 -> ${fileName}`)
         if (!ignoreForPreload.includes(fileName)) {
           http2PushManifestItems.push({
             link: route,
@@ -199,6 +201,7 @@ const preloadResources = opt => {
           .parse(responseUrl)
           .pathname.split("/")
           .pop();
+        console.log(`Debug index:204 -> ${fileName}`)
         if (!ignoreForPreload.includes(fileName)) {
           http2PushManifestItems.push({
             link: route,
@@ -213,6 +216,7 @@ const preloadResources = opt => {
       if (uniqueResources.has(domain)) return;
       uniqueResources.add(domain);
       await page.evaluate(route => {
+        console.log(`Debug index:219 -> ${route}`)
         const linkTag = document.createElement("link");
         linkTag.setAttribute("rel", "preconnect");
         linkTag.setAttribute("href", route);
@@ -491,7 +495,7 @@ const fixWebpackChunksIssue2 = ({
         linkTag.setAttribute("rel", "preload");
         linkTag.setAttribute("as", "script");
 
-        console.log(`Debug fixWebpackChunksIssue2 ${page} | ${http2PushManifest} | ${inlineCss}`)
+        console.log(`Debug fixWebpackChunksIssue2 ${x} | ${http2PushManifest} | ${inlineCss}`)
         console.log(`fixWebpackChunksIssue2 -> staticBasePath: ${staticBasePath} | basePath: ${basePath}`)
         if (staticBasePath === basePath) {
           linkTag.setAttribute("href", x.src.replace(basePath, ""));
