@@ -15,6 +15,10 @@ const publicUrl = process.env.PUBLIC_URL || homepage;
 console.log(`env Public URL: ${process.env.PUBLIC_URL}`)
 console.log(`package homepage: ${homepage}`)
 
+console.log(`env staticBasePath: ${process.env.STATIC_BASE_PATH}`)
+console.log(`package staticBasePath: ${staticBasePath}`)
+console.log(`env REACT_APP_STATIC_BASE_URL: ${REACT_APP_STATIC_BASE_URL}`)
+
 const reactScriptsVersion = parseInt(
   (devDependencies && devDependencies["react-scripts"]) ||
   (dependencies && dependencies["react-scripts"])
