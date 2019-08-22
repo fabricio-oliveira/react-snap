@@ -201,7 +201,7 @@ const preloadResources = opt => {
           .parse(responseUrl)
           .pathname.split("/")
           .pop();
-        console.log(`Debug index:204 -> ${fileName}`)
+        console.log(`Debug index:204 -> ${fileName} | ${responseUrl}`)
         if (!ignoreForPreload.includes(fileName)) {
           http2PushManifestItems.push({
             link: route,
@@ -402,6 +402,7 @@ const fixWebpackChunksIssue1 = ({
 
       const chunkRegexp = /(\w+)\.[\w]{8}(\.chunk)?\.js/g;
       const chunkScripts = localScripts.filter(x => {
+        console.log(`index:405 ${x}`)
         const matched = chunkRegexp.exec(x.src);
         // we need to reset state of RegExp https://stackoverflow.com/a/11477448
         chunkRegexp.lastIndex = 0;
@@ -409,6 +410,7 @@ const fixWebpackChunksIssue1 = ({
       });
 
       const mainScripts = localScripts.filter(x => {
+        console.log(`index:413 ${x}`)
         const matched = chunkRegexp.exec(x.src);
         // we need to reset state of RegExp https://stackoverflow.com/a/11477448
         chunkRegexp.lastIndex = 0;
