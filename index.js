@@ -388,7 +388,7 @@ const fixWebpackChunksIssue1 = ({
       const localScripts = Array.from(document.scripts).filter(
         x => x.src && x.src.startsWith(basePath)
       );
-      console.log(`Debug fixWebpackChunksIssue1 ${page} | ${http2PushManifest} | ${inlineCss}`)
+
       // CRA v1|v2.alpha
       const mainRegexp = /main\.[\w]{8}.js|main\.[\w]{8}\.chunk\.js/;
       const mainScript = localScripts.find(x => mainRegexp.test(x.src));
@@ -491,6 +491,7 @@ const fixWebpackChunksIssue2 = ({
         linkTag.setAttribute("rel", "preload");
         linkTag.setAttribute("as", "script");
 
+        console.log(`Debug fixWebpackChunksIssue2 ${page} | ${http2PushManifest} | ${inlineCss}`)
         console.log(`fixWebpackChunksIssue2 -> staticBasePath: ${staticBasePath} | basePath: ${basePath}`)
         if (staticBasePath === basePath) {
           linkTag.setAttribute("href", x.src.replace(basePath, ""));
