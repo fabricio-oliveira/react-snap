@@ -10,7 +10,9 @@ const {
   staticBasePath
 } = require(`${process.cwd()}/package.json`);
 
-const publicUrl = homepage;
+const publicUrl = process.env.PUBLIC_URL || homepage;
+
+console.log(`public url ${process.env.PUBLIC_URL}`)
 
 const reactScriptsVersion = parseInt(
   (devDependencies && devDependencies["react-scripts"]) ||
