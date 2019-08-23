@@ -6,15 +6,14 @@ const {
   reactSnap,
   homepage,
   devDependencies,
-  dependencies,
-  staticBasePath
+  dependencies
 } = require(`${process.cwd()}/package.json`);
 
 const publicUrl = process.env.PUBLIC_URL || homepage;
 
 const reactScriptsVersion = parseInt(
   (devDependencies && devDependencies["react-scripts"]) ||
-    (dependencies && dependencies["react-scripts"])
+  (dependencies && dependencies["react-scripts"])
 );
 let fixWebpackChunksIssue;
 switch (reactScriptsVersion) {
@@ -28,7 +27,7 @@ switch (reactScriptsVersion) {
 
 const parcel = Boolean(
   (devDependencies && devDependencies["parcel-bundler"]) ||
-    (dependencies && dependencies["parcel-bundler"])
+  (dependencies && dependencies["parcel-bundler"])
 );
 
 if (parcel) {
@@ -41,7 +40,6 @@ if (parcel) {
 
 run({
   publicPath: publicUrl ? url.parse(publicUrl).pathname : "/",
-  staticBasePath: process.env.STATIC_BASE_PATH || staticBasePath,
   fixWebpackChunksIssue,
   ...reactSnap
 }).catch(error => {

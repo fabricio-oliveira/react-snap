@@ -28,6 +28,7 @@ const defaultOptions = {
   },
   puppeteerArgs: [],
   puppeteerExecutablePath: undefined,
+  staticBasePath: undefined,
   puppeteerIgnoreHTTPSErrors: false,
   publicPath: "/",
   staticBasePath: "/",
@@ -308,7 +309,7 @@ const inlineCss = async opt => {
   if (cssSize > twentyKb)
     console.log(
       `⚠️  warning: inlining CSS more than 20kb (${cssSize /
-        1024}kb, ${cssStrategy})`
+      1024}kb, ${cssStrategy})`
     );
 
   if (cssStrategy === "critical") {
@@ -415,11 +416,13 @@ const fixWebpackChunksIssue1 = ({
         const linkTag = document.createElement("link");
         linkTag.setAttribute("rel", "preload");
         linkTag.setAttribute("as", "script");
-        if (staticBasePath === basePath) {
+
+        if (typeof staticBasePath === 'undefined') {
           linkTag.setAttribute("href", x.src.replace(basePath, ""));
         } else {
           linkTag.setAttribute("href", x.src.replace(basePath, staticBasePath));
         }
+
         if (inlineCss) {
           firstStyle.parentNode.insertBefore(linkTag, firstStyle);
         } else {
@@ -486,7 +489,7 @@ const fixWebpackChunksIssue2 = ({
         linkTag.setAttribute("rel", "preload");
         linkTag.setAttribute("as", "script");
 
-        if (staticBasePath === basePath) {
+        if (typeof staticBasePath === 'undefined') {
           linkTag.setAttribute("href", x.src.replace(basePath, ""));
         } else {
           linkTag.setAttribute("href", x.src.replace(basePath, staticBasePath));
@@ -554,7 +557,7 @@ const fixParcelChunksIssue = ({
         linkTag.setAttribute("rel", "preload");
         linkTag.setAttribute("as", "script");
 
-        if (staticBasePath === basePath) {
+        if (typeof staticBasePath === 'undefined') {
           linkTag.setAttribute("href", x.src.replace(`${basePath}/`, ""));
         } else {
           linkTag.setAttribute("href", x.src.replace(basePath, staticBasePath));
