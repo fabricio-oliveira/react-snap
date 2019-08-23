@@ -45,7 +45,7 @@ const enableLogging = opt => {
         console.log(`💬  console.log at ${route}:`, ...args)
       );
     } else {
-      console.log(`️️️💬  console.log at ${route}:`, text);
+      console.log(`️️️💬  console.log at  ${msg} | ${route}:`, text);
     }
   });
   page.on("error", msg => {
@@ -90,7 +90,7 @@ const enableLogging = opt => {
         route = response._request
           .headers()
           .referer.replace(`http://localhost:${options.port}`, "");
-      } catch (e) {}
+      } catch (e) { }
       console.log(
         `️️️⚠️  warning at ${route}: got ${response.status()} HTTP code for ${response.url()}`
       );
