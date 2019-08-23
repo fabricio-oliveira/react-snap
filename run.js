@@ -10,8 +10,6 @@ const {
   staticBasePath
 } = require(`${process.cwd()}/package.json`);
 
-const publicUrl = process.env.PUBLIC_URL || homepage;
-
 console.log(`env Public URL: ${process.env.PUBLIC_URL}`)
 console.log(`package homepage: ${homepage}`)
 
@@ -47,7 +45,7 @@ if (parcel) {
 }
 
 run({
-  publicPath: publicUrl ? url.parse(publicUrl).pathname : "/",
+  publicPath: homepage ? url.parse(homepage).pathname : "/",
   staticBasePath: process.env.STATIC_BASE_PATH || staticBasePath,
   fixWebpackChunksIssue,
   ...reactSnap
