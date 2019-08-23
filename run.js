@@ -10,11 +10,11 @@ const {
   staticBasePath
 } = require(`${process.cwd()}/package.json`);
 
-const publicUrl = process.env.PUBLIC_URL || homepage;
+const publicUrl = homepage;
 
 const reactScriptsVersion = parseInt(
   (devDependencies && devDependencies["react-scripts"]) ||
-    (dependencies && dependencies["react-scripts"])
+  (dependencies && dependencies["react-scripts"])
 );
 let fixWebpackChunksIssue;
 switch (reactScriptsVersion) {
@@ -28,7 +28,7 @@ switch (reactScriptsVersion) {
 
 const parcel = Boolean(
   (devDependencies && devDependencies["parcel-bundler"]) ||
-    (dependencies && dependencies["parcel-bundler"])
+  (dependencies && dependencies["parcel-bundler"])
 );
 
 if (parcel) {

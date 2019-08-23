@@ -30,7 +30,6 @@ const defaultOptions = {
   puppeteerExecutablePath: undefined,
   puppeteerIgnoreHTTPSErrors: false,
   publicPath: "/",
-  staticBasePath: "/",
   minifyCss: {},
   minifyHtml: {
     collapseBooleanAttributes: true,
@@ -308,7 +307,7 @@ const inlineCss = async opt => {
   if (cssSize > twentyKb)
     console.log(
       `⚠️  warning: inlining CSS more than 20kb (${cssSize /
-        1024}kb, ${cssStrategy})`
+      1024}kb, ${cssStrategy})`
     );
 
   if (cssStrategy === "critical") {
@@ -415,7 +414,9 @@ const fixWebpackChunksIssue1 = ({
         const linkTag = document.createElement("link");
         linkTag.setAttribute("rel", "preload");
         linkTag.setAttribute("as", "script");
-        if (staticBasePath === basePath) {
+
+        console.log(`teste ${staticBasePath}`)
+        if (typeof staticBasePath === 'undefined') {
           linkTag.setAttribute("href", x.src.replace(basePath, ""));
         } else {
           linkTag.setAttribute("href", x.src.replace(basePath, staticBasePath));
@@ -486,7 +487,8 @@ const fixWebpackChunksIssue2 = ({
         linkTag.setAttribute("rel", "preload");
         linkTag.setAttribute("as", "script");
 
-        if (staticBasePath === basePath) {
+        console.log(`teste ${staticBasePath}`)
+        if (typeof staticBasePath === 'undefined') {
           linkTag.setAttribute("href", x.src.replace(basePath, ""));
         } else {
           linkTag.setAttribute("href", x.src.replace(basePath, staticBasePath));
@@ -554,7 +556,7 @@ const fixParcelChunksIssue = ({
         linkTag.setAttribute("rel", "preload");
         linkTag.setAttribute("as", "script");
 
-        if (staticBasePath === basePath) {
+        if (typeof staticBasePath === 'undefined') {
           linkTag.setAttribute("href", x.src.replace(`${basePath}/`, ""));
         } else {
           linkTag.setAttribute("href", x.src.replace(basePath, staticBasePath));
